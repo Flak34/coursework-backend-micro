@@ -64,7 +64,7 @@ public class CarsharingService {
         int zoneId = modelZoneMappingRepository.findByModel(currentCar.getModel()).getZoneId();
         Zone zone = getZone(zoneId);
 
-        if(true) {
+        if(checkZone(zone, S2LatLng.fromDegrees(currentCar.getLng(), currentCar.getLat()).toPoint())) {
             if (driveRepository.finishDrive(id, currentDrive.getFinish(), currentDrive.getDuration()) > 0) {
                 carRepository.releaseCar(currentCar.getId());
                 return ResponseEntity.ok(currentDrive);
@@ -73,7 +73,7 @@ public class CarsharingService {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка во время завершения поездки");
         }
         else {
-            return ResponseEntity.badRequest().body("Нельзя заверщить поездку за пределами зоны покрытия!");
+            return ResponseEntity.badRequest().body("Нельзя завершить поездку за пределами зоны покрытия!");
         }
     }
 
@@ -142,11 +142,12 @@ public class CarsharingService {
 
     public boolean checkZone(Zone zone, S2Point point) {
         List<S2Point> vertices = new ArrayList<>();
-        for(int i = 0; i < zone.getCoordinates().length; i++) {
+        for(int i = 0; i < zone.getCoordinates().length - 1; i++) {
             double lat = zone.getCoordinates()[i][0];
             double lng = zone.getCoordinates()[i][1];
             vertices.add(S2LatLng.fromDegrees(lat, lng).toPoint());
         }
+
         S2Loop loop = new S2Loop(vertices);
         return loop.contains(point);
     }
