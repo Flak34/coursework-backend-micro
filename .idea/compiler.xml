@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
+        </processorPath>
+        <module name="auth-service.main" />
+        <module name="carsharing-service.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.6">
+      <module name="car-service" target="17" />
+      <module name="car-service.main" target="17" />
+      <module name="car-service.test" target="17" />
+      <module name="carsharing_service" target="17" />
+      <module name="carsharing_service.main" target="17" />
+      <module name="carsharing_service.test" target="17" />
+      <module name="com.example.user-service.main" target="17" />
+      <module name="com.example.user-service.test" target="17" />
+      <module name="drive-service" target="17" />
+      <module name="drive-service.main" target="17" />
+      <module name="drive-service.test" target="17" />
+      <module name="eureka-client" target="17" />
+      <module name="eureka-client-2" target="17" />
+      <module name="eureka-client-2.main" target="17" />
+      <module name="eureka-client-2.test" target="17" />
+      <module name="eureka-client.main" target="17" />
+      <module name="eureka-client.test" target="17" />
+      <module name="user-service" target="17" />
+      <module name="user-service.main" target="17" />
+      <module name="user-service.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
