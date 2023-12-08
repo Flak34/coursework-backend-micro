@@ -1,0 +1,78 @@
+version: '3.7'
+services:
+# база данных для сервера авторизации
+  postgres-auth:
+    container_name: postgres-auth
+    image: postgres
+    environment:
+      POSTGRES_DB: auth_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres-auth:/data/postgres
+    expose:
+      - "5432"
+    command: -p 5432
+    restart: always
+
+# база данных для сервиса каршеринга
+  postgres-carsharing:
+    container_name: postgres-carsharing
+    image: postgres
+    environment:
+      POSTGRES_DB: carsharing_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres-carsharing:/data/postgres
+    expose:
+      - "5433"
+    command: -p 5433
+    restart: always
+
+# еврейка сервер
+  eureka-server:
+    container_name: eureka-server
+    build: ./eureka-server
+    # ports:
+      # - "8761:8761"
+
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
+    ports:
+      - "8765:8765"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+      - auth-service
+      - carsharing-service
+
+  auth-service:
+    container_name: auth-service
+    build: ./auth-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - postgres-auth
+      - eureka-server
+      
+  react-service:
+    container_name: react-service
+    ports:
+      - "8080:3000"
+    build: ../coursework-frontend
+    depends_on:
+      - api-gateway
+
+  carsharing-service:
+    container_name: carsharing-service
+    build: ./carsharing-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - postgres-carsharing
+      - eureka-server

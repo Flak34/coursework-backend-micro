@@ -1,0 +1,6 @@
+rootProject.name = 'coursework-backend-micro'
+
+includeBuild 'eureka-server'
+includeBuild 'api-gateway'
+includeBuild 'auth-service'
+includeBuild 'carsharing-service'
